@@ -1,4 +1,6 @@
-let services = [];
+let services = JSON.parse(localStorage.getItem("services")) || [];
+
+displayServices();
 
 function addService() {
 
@@ -18,6 +20,8 @@ function addService() {
     };
 
     services.push(service);
+
+    saveServices();
 
     displayServices();
 
@@ -49,5 +53,24 @@ function deleteService(id) {
 
     services = services.filter(service => service.id !== id);
 
+    saveServices();
+
     displayServices();
+}
+
+function clearServices() {
+
+    services = [];
+
+    saveServices();
+
+    displayServices();
+}
+
+function saveServices() {
+
+    localStorage.setItem(
+        "services",
+        JSON.stringify(services)
+    );
 }
