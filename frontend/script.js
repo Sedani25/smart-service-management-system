@@ -1,4 +1,13 @@
-let services = JSON.parse(localStorage.getItem("services")) || [];
+let services =
+JSON.parse(localStorage.getItem("services")) || [];
+
+let addButton = document.getElementById("addButton");
+
+let clearButton = document.getElementById("clearButton");
+
+addButton.addEventListener("click", addService);
+
+clearButton.addEventListener("click", clearServices);
 
 displayServices();
 
@@ -6,7 +15,7 @@ function addService() {
 
     let input = document.getElementById("serviceInput");
 
-    let serviceName = input.value;
+    let serviceName = input.value.trim();
 
     if(serviceName === "") {
         alert("Please enter a service");
@@ -36,22 +45,32 @@ function displayServices() {
 
     for(let i = 0; i < services.length; i++) {
 
-        list.innerHTML += `
-            <li>
-                ${services[i].name}
-                - ${services[i].status}
+        let li = document.createElement("li");
 
-                <button onclick="deleteService(${services[i].id})">
-                    Delete
-                </button>
-            </li>
+        li.innerHTML = `
+            ${services[i].name}
+            - ${services[i].status}
         `;
+
+        let deleteButton =
+        document.createElement("button");
+
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", function() {
+            deleteService(services[i].id);
+        });
+
+        li.appendChild(deleteButton);
+
+        list.appendChild(li);
     }
 }
 
 function deleteService(id) {
 
-    services = services.filter(service => service.id !== id);
+    services =
+    services.filter(service => service.id !== id);
 
     saveServices();
 
