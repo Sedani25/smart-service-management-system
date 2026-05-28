@@ -1,95 +1,37 @@
-let services =
-JSON.parse(localStorage.getItem("services")) || [];
+let loadButton =
+document.getElementById("loadButton");
 
-let addButton = document.getElementById("addButton");
+loadButton.addEventListener(
+    "click",
+    loadServices
+);
 
-let clearButton = document.getElementById("clearButton");
+async function loadServices() {
 
-addButton.addEventListener("click", addService);
+    let response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=5"
+    );
 
-clearButton.addEventListener("click", clearServices);
+    let services = await response.json();
 
-displayServices();
-
-function addService() {
-
-    let input = document.getElementById("serviceInput");
-
-    let serviceName = input.value.trim();
-
-    if(serviceName === "") {
-        alert("Please enter a service");
-        return;
-    }
-
-    let service = {
-        id: Date.now(),
-        name: serviceName,
-        status: "Pending"
-    };
-
-    services.push(service);
-
-    saveServices();
-
-    displayServices();
-
-    input.value = "";
+    displayServices(services);
 }
 
-function displayServices() {
+function displayServices(services) {
 
-    let list = document.getElementById("serviceList");
+    let list =
+    document.getElementById("serviceList");
 
     list.innerHTML = "";
 
-    for(let i = 0; i < services.length; i++) {
+    services.forEach(service => {
 
         let li = document.createElement("li");
 
         li.innerHTML = `
-            ${services[i].name}
-            - ${services[i].status}
+            ${service.title}
         `;
 
-        let deleteButton =
-        document.createElement("button");
-
-        deleteButton.textContent = "Delete";
-
-        deleteButton.addEventListener("click", function() {
-            deleteService(services[i].id);
-        });
-
-        li.appendChild(deleteButton);
-
         list.appendChild(li);
-    }
-}
-
-function deleteService(id) {
-
-    services =
-    services.filter(service => service.id !== id);
-
-    saveServices();
-
-    displayServices();
-}
-
-function clearServices() {
-
-    services = [];
-
-    saveServices();
-
-    displayServices();
-}
-
-function saveServices() {
-
-    localStorage.setItem(
-        "services",
-        JSON.stringify(services)
-    );
+    });
 }
