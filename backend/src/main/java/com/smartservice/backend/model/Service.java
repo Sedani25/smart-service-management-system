@@ -6,6 +6,9 @@ public class Service {
     private String name;
     private String status;
 
+    public Service() {
+    }
+    
     public Service(Long id, String name, String status) {
         this.id = id;
         this.name = name;
