@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smart Service Management</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Smart Service Management System</title>
 </head>
-
 <body>
 
     <h1>Smart Service Management System</h1>
 
-    <button id="loadButton">
-        Load Services From API
+    <input
+        type="text"
+        id="serviceName"
+        placeholder="Enter service name">
+
+    <button id="addBtn">
+        Add Service
+    </button>
+
+    <hr>
+
+    <button id="loadBtn">
+        Load Services
     </button>
 
     <ul id="serviceList"></ul>
@@ -18,5 +27,4 @@
     <script src="script.js"></script>
 
 </body>
-
 </html>
